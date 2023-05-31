@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeatherApp</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+ </head>
+	<body>
+		<nav class ="navbar bg-light container-fluid justify-content-start" id="navbar">
+			<button class="btn btn-outline-primary"><a href="index.html">Home</a></button>
+			<button class="btn btn-outline-primary"><a href="forecast.html">Forecast</a></button>
+			<button class="btn btn-outline-primary"><a href="history.html">History</a></button>
+		</nav>
+		<div class = "container">
+			<div class = "row flex-column">
+				<H1>History</H1>
+			</div>
+			<div class = "input-group w-50 m-auto" id="#historyEntry">
+				<input type="date" id="dateEntry">
+				<input id = "countEntry" type="text" class="form-control" placeholder="Count">
+				<button class="btn btn-primary" onclick="getEntries()">Search</button>
+			</div>
+			<div id="selectedEntry"></div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope = "col">Date</th>
+						<th scope = "col">Time</th>
+						<th scope = "col">Search Location</th>
+						<th scope = "col">Lat</th>
+						<th scope = "col">Lon</th>
+						<th scope = "col">Weather Date</th>
+						<th scope = "col">Min Temp</th>
+						<th scope = "col">Max Temp</th>
+						<th scope = "col">Visibility</th>
+						<th scope = "col">Humidity</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+    	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+		<script src="info.js"></script>
+  	</body>
+</html>
