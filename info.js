@@ -14,7 +14,7 @@ const firebaseConfig = {
   measurementId: "G-S34DTJSRW6"
   };
   
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 var TomTomAPIKey="uihEdPGAe1ZOsPCkVP6aiAk2fFcefTdQ";
