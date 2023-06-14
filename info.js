@@ -1,5 +1,18 @@
 //https://api.tomtom.com/search/2/search/Benton%20Hall%20in%20Oxford%20Ohio.json?limit=1&lat=39.5070&lon=-84.7452&minFuzzyLevel=1&maxFuzzyLevel=2&view=Unified&relatedPois=all&key=uihEdPGAe1ZOsPCkVP6aiAk2fFcefTdQ;
 //https://api.openweathermap.org/data/2.5/forecast?lat=39.5070&lon=-84.7452&units=imperial&appid=8ea202ee92c6ca06bec7a160a3a3deb1
+const firebaseConfig = {
+	apiKey: "AIzaSyAGXlyekdqpPy_Gra6lByUCfXhBLhhhp4Q",
+  authDomain: "weatherapp-818b4.firebaseapp.com",
+  projectId: "weatherapp-818b4",
+  storageBucket: "weatherapp-818b4.appspot.com",
+  messagingSenderId: "31493056498",
+  appId: "1:31493056498:web:5aede3ee8d2eb6647dad6b",
+  measurementId: "G-S34DTJSRW6"
+  };
+  
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
 var TomTomAPIKey="uihEdPGAe1ZOsPCkVP6aiAk2fFcefTdQ";
 var WeatherAPIKey = "8ea202ee92c6ca06bec7a160a3a3deb1";
 var date;
@@ -39,6 +52,7 @@ $(document).ready(function() {
 
 
 function getEntries() {
+	/*
 	//http://172.17.13.227//final.php?method=getWeather&date=YYYY-MM-DD
 	let URL = "http://172.17.13.227/final.php?method=getLookup&date=";
 	let count = $("#countEntry").val();
@@ -69,6 +83,44 @@ function getEntries() {
 		console.log("error, most likely no values on this date",error.statusText);
 		//$("#log").prepend("df error "+new Date()+"<br>");
 	});
+	*/
+	let count = $("#countEntry").val();
+  let datePick = $("#dateEntry").val(); // assuming this is a date string
+  let date = new Date(datePick); 
+
+  db.collection('WeatherData')
+    // Retrieve entries after a certain date
+    .where('DateTime', '>=', firebase.firestore.Timestamp.fromDate(date))
+    .orderBy('DateTime') // Order by date
+    .limit(count) // Limit number of retrieved documents
+    .get()
+    .then((querySnapshot) => {
+      mapData = [];
+      weatherData = [];
+      $('tbody').empty();
+
+      querySnapshot.forEach((doc) => {
+        let data = doc.data();
+
+        let dateTime = data.DateTime.toDate(); // Convert Firestore timestamp to JavaScript date
+        let mapJson = JSON.parse(data.MapJson);
+        let weatherJson = JSON.parse(data.WeatherJson);
+
+        mapData.push(mapJson);
+        weatherData.push(weatherJson);
+        mapLocations.push(data.Location);
+
+        $('tbody').append("<tr id="+i+"h><td>"+dateTime.getFullYear()+"-"+
+        dateTime.getMonth()+"-"+ dateTime.getDate()+
+        "</td><td>"+dateTime.getHours()+":"+dateTime.getMinutes()+"</td><td>"+data.Location+"</td><td>"+
+        mapJson.lat+"</td><td>"+mapJson.lon+"</td><td>Date: "+weatherJson.date+"</td><td>Min: "
+        +weatherJson.minTemp+"</td><td>Max: "+weatherJson.maxTemp+"</td><td>Visibility: "+weatherJson.visibility+"</td><td>Humidity: "
+        +weatherJson.humidity+"</td></tr>");
+      });
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
 }
 function getLatLon() {
 	let URL = "https://api.tomtom.com/search/2/search/";
@@ -135,7 +187,7 @@ function getForecast(lat,lon) {
 
 }
 function storeEntry(){
-	
+	/* OLD CODE
 	let URL = "http://172.17.13.227/final.php?method=setWeather";
 	
 	let query = "&location=" + mapLocation + "&mapJson=" + JSON.stringify(mapJson) + "&weatherJson=" + JSON.stringify(weatherJson);
@@ -147,5 +199,19 @@ function storeEntry(){
 	}).fail(function(error) {
 		console.log("error",error.statusText);
 		//$("#log").prepend("df error "+new Date()+"<br>");
+	
 	});
+	*/
+	db.collection('WeatherData').add({
+		DateTime: firebase.firestore.Timestamp.fromDate(new Date()), // current time
+		Location: mapLocation,
+		MapJson: JSON.stringify(mapJson),
+		WeatherJson: JSON.stringify(weatherJson)
+	  })
+	  .then((docRef) => {
+		console.log("Document written with ID: ", docRef.id);
+	  })
+	  .catch((error) => {
+		console.error("Error adding document: ", error);
+	  });
 }
