@@ -1,3 +1,9 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
 //https://api.tomtom.com/search/2/search/Benton%20Hall%20in%20Oxford%20Ohio.json?limit=1&lat=39.5070&lon=-84.7452&minFuzzyLevel=1&maxFuzzyLevel=2&view=Unified&relatedPois=all&key=uihEdPGAe1ZOsPCkVP6aiAk2fFcefTdQ;
 //https://api.openweathermap.org/data/2.5/forecast?lat=39.5070&lon=-84.7452&units=imperial&appid=8ea202ee92c6ca06bec7a160a3a3deb1
 const firebaseConfig = {
