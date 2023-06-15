@@ -118,6 +118,7 @@ function getEntries() {
         mapJson.lat+"</td><td>"+mapJson.lon+"</td><td>Date: "+weatherJson.date+"</td><td>Min: "
         +weatherJson.minTemp+"</td><td>Max: "+weatherJson.maxTemp+"</td><td>Visibility: "+weatherJson.visibility+"</td><td>Humidity: "
         +weatherJson.humidity+"</td></tr>");
+		i++;
       });
     })
     .catch((error) => {
