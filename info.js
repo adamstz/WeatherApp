@@ -89,7 +89,7 @@ function getEntries() {
 	let count = $("#countEntry").val();
   let datePick = $("#dateEntry").val(); // assuming this is a date string
   let date = new Date(datePick); 
-
+  let i = 0;
   db.collection('WeatherData')
     // Retrieve entries after a certain date
     .where('DateTime', '>=', firebase.firestore.Timestamp.fromDate(date))
